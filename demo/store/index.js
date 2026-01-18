@@ -1,4 +1,6 @@
+import { merge } from 'lodash-es'
 import {
+  configProviderProps,
   darkTheme,
   dateEnUS,
   dateZhCN,
@@ -8,7 +10,7 @@ import {
   zhCN
 } from 'naive-ui'
 import { useMemo } from 'vooks'
-import { computed, ref } from 'vue'
+import { computed, defineComponent, h, ref } from 'vue'
 import { TsConfigProvider } from '../../themes/tusimple/src'
 import { i18n, useIsMobile } from '../utils/composables'
 import hljs from './hljs'
@@ -16,6 +18,219 @@ import {
   createComponentMenuOptions,
   createDocumentationMenuOptions
 } from './menu-options'
+
+const wandeThemeOverridesLight = {
+  common: {
+    fontFamily:
+      'Roboto, Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
+    fontWeight: '400',
+    fontWeightStrong: '600',
+    lineHeight: '1.6',
+    fontSize: '14px',
+    fontSizeMini: '12px',
+    fontSizeTiny: '12px',
+    fontSizeSmall: '13px',
+    fontSizeMedium: '14px',
+    fontSizeLarge: '15px',
+    fontSizeHuge: '16px',
+    heightTiny: '28px',
+    heightSmall: '32px',
+    heightMedium: '36px',
+    heightLarge: '40px',
+    heightHuge: '44px',
+    borderRadius: '10px',
+    borderRadiusSmall: '8px',
+
+    primaryColor: '#1976D2',
+    primaryColorHover: '#1565C0',
+    primaryColorPressed: '#0D47A1',
+    primaryColorSuppl: '#42A5F5',
+
+    infoColor: '#0288D1',
+    infoColorHover: '#0277BD',
+    infoColorPressed: '#01579B',
+    infoColorSuppl: '#29B6F6',
+
+    successColor: '#2E7D32',
+    successColorHover: '#1B5E20',
+    successColorPressed: '#104815',
+    successColorSuppl: '#4CAF50',
+
+    warningColor: '#ED6C02',
+    warningColorHover: '#E65100',
+    warningColorPressed: '#BF360C',
+    warningColorSuppl: '#FF9800',
+
+    errorColor: '#D32F2F',
+    errorColorHover: '#C62828',
+    errorColorPressed: '#B71C1C',
+    errorColorSuppl: '#EF5350',
+
+    baseColor: '#FFFFFF',
+    bodyColor: '#F5F7FB',
+    cardColor: '#FFFFFF',
+    modalColor: '#FFFFFF',
+    popoverColor: '#FFFFFF',
+
+    textColorBase: '#0F172A',
+    textColor1: '#0F172A',
+    textColor2: '#1F2937',
+    textColor3: '#64748B',
+
+    placeholderColor: '#94A3B8',
+    placeholderColorDisabled: '#CBD5E1',
+    textColorDisabled: '#94A3B8',
+
+    borderColor: '#E2E8F0',
+    dividerColor: '#E5E7EB',
+    hoverColor: 'rgba(15, 23, 42, 0.04)',
+    pressedColor: 'rgba(15, 23, 42, 0.08)',
+
+    tableHeaderColor: '#F8FAFC',
+    tableColorHover: 'rgba(15, 23, 42, 0.03)',
+    tableColorStriped: 'rgba(15, 23, 42, 0.02)',
+
+    inputColor: '#FFFFFF',
+    inputColorDisabled: '#F1F5F9',
+    actionColor: '#F8FAFC',
+    tabColor: '#F1F5F9',
+    codeColor: '#F1F5F9',
+
+    boxShadow1:
+      '0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.10)',
+    boxShadow2:
+      '0 4px 8px rgba(16, 24, 40, 0.08), 0 2px 4px rgba(16, 24, 40, 0.06)',
+    boxShadow3:
+      '0 12px 24px rgba(16, 24, 40, 0.14), 0 6px 12px rgba(16, 24, 40, 0.10)'
+  },
+  Button: {
+    heightTiny: '28px',
+    heightSmall: '32px',
+    heightMedium: '36px',
+    heightLarge: '40px',
+    fontWeight: '600',
+    waveOpacity: '0.35'
+  },
+  Card: {
+    borderRadius: '12px',
+    boxShadow:
+      '0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.10)'
+  },
+  Input: {
+    borderRadius: '10px',
+    boxShadowFocus: '0 0 0 3px rgba(25, 118, 210, 0.18)'
+  },
+  Select: {
+    menuBoxShadow:
+      '0 12px 24px rgba(16, 24, 40, 0.12), 0 6px 12px rgba(16, 24, 40, 0.08)'
+  },
+  DataTable: {
+    borderRadius: '12px',
+    boxShadowBefore: 'inset -12px 0 8px -12px rgba(15, 23, 42, 0.14)',
+    boxShadowAfter: 'inset 12px 0 8px -12px rgba(15, 23, 42, 0.14)'
+  },
+  Menu: {
+    borderRadius: '12px',
+    itemHeight: '44px'
+  },
+  Tabs: {
+    tabBorderRadius: '10px'
+  },
+  Pagination: {
+    itemBorderRadius: '10px'
+  },
+  Dialog: {
+    borderRadius: '14px',
+    border: '1px solid rgba(226, 232, 240, 0.9)'
+  },
+  Drawer: {
+    borderRadius: '14px'
+  },
+  Layout: {
+    color: '#F5F7FB',
+    headerColor: '#FFFFFF',
+    siderColor: '#FFFFFF'
+  },
+  Typography: {
+    codeBorder: '1px solid rgba(226, 232, 240, 0.9)'
+  },
+  Form: {
+    lineHeight: '1.6'
+  }
+}
+
+const wandeThemeOverridesDark = {
+  ...wandeThemeOverridesLight,
+  common: {
+    ...wandeThemeOverridesLight.common,
+    baseColor: '#0B1220',
+    bodyColor: '#0B1220',
+    cardColor: '#111827',
+    modalColor: '#111827',
+    popoverColor: '#111827',
+
+    textColorBase: '#E5E7EB',
+    textColor1: '#F9FAFB',
+    textColor2: '#E5E7EB',
+    textColor3: '#9CA3AF',
+
+    placeholderColor: '#6B7280',
+    placeholderColorDisabled: '#475569',
+    textColorDisabled: '#64748B',
+
+    borderColor: '#243042',
+    dividerColor: 'rgba(148, 163, 184, 0.16)',
+    hoverColor: 'rgba(148, 163, 184, 0.08)',
+    pressedColor: 'rgba(148, 163, 184, 0.12)',
+
+    tableHeaderColor: '#0F172A',
+    tableColorHover: 'rgba(148, 163, 184, 0.06)',
+    tableColorStriped: 'rgba(148, 163, 184, 0.04)',
+
+    inputColor: '#0F172A',
+    inputColorDisabled: '#0B1220',
+    actionColor: '#0F172A',
+    tabColor: '#0F172A',
+    codeColor: '#0F172A',
+
+    boxShadow1: '0 1px 2px rgba(0, 0, 0, 0.32), 0 1px 3px rgba(0, 0, 0, 0.24)',
+    boxShadow2: '0 6px 16px rgba(0, 0, 0, 0.34), 0 2px 6px rgba(0, 0, 0, 0.22)',
+    boxShadow3:
+      '0 18px 40px rgba(0, 0, 0, 0.42), 0 8px 18px rgba(0, 0, 0, 0.30)'
+  },
+  Layout: {
+    color: '#0B1220',
+    headerColor: '#0F172A',
+    siderColor: '#0F172A'
+  }
+}
+
+const WdConfigProvider = defineComponent({
+  name: 'WdConfigProvider',
+  props: {
+    themeName: {
+      type: String,
+      default: 'light'
+    },
+    ...configProviderProps
+  },
+  render() {
+    const { themeOverrides, themeName } = this.$props
+    const wandeThemeOverrides
+      = themeName === 'dark' ? wandeThemeOverridesDark : wandeThemeOverridesLight
+    return h(
+      NConfigProvider,
+      {
+        class: `wd-${themeName}-theme`,
+        ...this.$props,
+        themeOverrides: themeOverrides
+          ? merge({}, wandeThemeOverrides, themeOverrides)
+          : wandeThemeOverrides
+      },
+      this.$slots
+    )
+  }
+})
 
 let route = null
 let router = null
@@ -88,7 +303,9 @@ const configProviderNameRef = ref(process.env.TUSIMPLE ? 'tusimple' : 'default')
 const configProviderRef = computed(() => {
   return configProviderNameRef.value === 'tusimple'
     ? TsConfigProvider
-    : NConfigProvider
+    : configProviderNameRef.value === 'wande'
+      ? WdConfigProvider
+      : NConfigProvider
 })
 
 // options

@@ -1,0 +1,14 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "composite": false,
+    "noEmit": true,
+    "allowJs": true,
+    "checkJs": false,
+    "types": ["node", "vue/jsx", "vitest/globals"],
+    "declaration": false,
+    "strict": false,
+    "noImplicitAny": false
+  },
+  "include": ["./**/*", "../src/global.d.ts"]
+}

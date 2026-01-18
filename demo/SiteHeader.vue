@@ -1,4 +1,6 @@
 <script lang="ts">
+import type { MenuOption } from 'naive-ui'
+import type { Ref } from 'vue'
 import { MenuOutline } from '@vicons/ionicons5'
 import { useMessage, version } from 'naive-ui'
 import { computed, defineComponent, ref } from 'vue'
@@ -17,15 +19,39 @@ import { i18n, useIsMobile, useIsTablet } from './utils/composables'
 import { repoUrl } from './utils/github-url'
 import { findMenuValue } from './utils/route'
 
-// match substr
-function match(pattern, string) {
+type LocaleName = 'zh-CN' | 'en-US'
+type ThemeName = 'dark' | 'light'
+type DisplayMode = 'common' | 'debug'
+type ConfigProviderName = 'default' | 'tusimple' | 'wande'
+
+interface PopoverInst {
+  setShow: (show: boolean) => void
+}
+
+interface MenuInst {
+  deriveResponsiveState: () => void
+}
+
+interface SearchableOption {
+  key: string
+  label?: string
+  extraString?: string
+  path: string
+}
+
+interface AutoCompleteOption {
+  label: string
+  value: string
+}
+
+function match(pattern: string, target: string): boolean {
   if (!pattern.length)
     return true
-  if (!string.length)
+  if (!target.length)
     return false
-  if (pattern[0] === string[0])
-    return match(pattern.slice(1), string.slice(1))
-  return match(pattern, string.slice(1))
+  if (pattern[0] === target[0])
+    return match(pattern.slice(1), target.slice(1))
+  return match(pattern, target.slice(1))
 }
 
 const locales = {
@@ -40,7 +66,8 @@ const locales = {
     debug: '调试',
     alreadyHome: '别点了，你已经在首页了',
     tusimpleTheme: '图森主题',
-    defaultTheme: '默认主题'
+    defaultTheme: '默认主题',
+    wandeTheme: '万德主题'
   },
   'en-US': {
     dark: 'Dark',
@@ -53,7 +80,8 @@ const locales = {
     debug: 'Debug',
     alreadyHome: 'You are already in home page. No clicking anymore.',
     tusimpleTheme: 'TuSimple Theme',
-    defaultTheme: 'Default Theme'
+    defaultTheme: 'Default Theme',
+    wandeTheme: 'Wande Theme'
   }
 }
 
@@ -67,39 +95,43 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
 
-    const mobilePopoverRef = ref(null)
+    const mobilePopoverRef = ref<PopoverInst | null>(null)
     const themeAndLocaleReg = /^(\/[^/]+){2}/
+    function getThemeAndLocalePathPrefix(path: string): string {
+      return themeAndLocaleReg.exec(path)?.[0] ?? ''
+    }
 
     // i18n
     const { t } = i18n(locales)
 
     // theme
-    const themeNameRef = useThemeName()
+    const themeNameRef = useThemeName() as unknown as Ref<ThemeName>
     const themeLabelMapRef = computed(() => ({
       dark: t('light'),
       light: t('dark')
     }))
 
     // locale
-    const localeNameRef = useLocaleName()
+    const localeNameRef = useLocaleName() as unknown as Ref<LocaleName>
 
     // menu
     const menuOptionsRef = computed(() => {
+      const pathPrefix = getThemeAndLocalePathPrefix(route.path)
       return [
         {
           key: 'home',
           label: t('home'),
-          path: themeAndLocaleReg.exec(route.path)[0]
+          path: pathPrefix
         },
         {
           key: 'doc',
           label: t('doc'),
-          path: `${themeAndLocaleReg.exec(route.path)[0]}/docs/introduction`
+          path: `${pathPrefix}/docs/introduction`
         },
         {
           key: 'component',
           label: t('component'),
-          path: `${themeAndLocaleReg.exec(route.path)[0]}/components/button`
+          path: `${pathPrefix}/components/button`
         }
       ]
     })
@@ -117,6 +149,7 @@ export default defineComponent({
     const docOptionsRef = useDocOptions()
     const componentOptionsRef = useComponentOptions()
     const mobileMenuOptionsRef = computed(() => {
+      const pathPrefix = getThemeAndLocalePathPrefix(route.path)
       return [
         {
           key: 'theme',
@@ -129,18 +162,18 @@ export default defineComponent({
         {
           key: 'home',
           label: t('home'),
-          path: themeAndLocaleReg.exec(route.path)[0]
+          path: pathPrefix
         },
         {
           key: 'doc',
           label: t('doc'),
           children: docOptionsRef.value,
-          path: `${themeAndLocaleReg.exec(route.path)[0]}/docs/introduction`
+          path: `${pathPrefix}/docs/introduction`
         },
         {
           key: 'component',
           label: t('component'),
-          path: `${themeAndLocaleReg.exec(route.path)[0]}/components/button`,
+          path: `${pathPrefix}/components/button`,
           children: componentOptionsRef.value
         },
         {
@@ -152,9 +185,12 @@ export default defineComponent({
     const mobileMenuValueRef = computed(() => {
       if (route.name === 'home')
         return 'home'
-      return findMenuValue(mobileMenuOptionsRef.value, route.path)
+      return findMenuValue(mobileMenuOptionsRef.value, route.path) as
+        | string
+        | null
     })
-    function handleUpdateMobileMenu(value, { path }) {
+    function handleUpdateMobileMenu(value: string, item: MenuOption) {
+      const path = (item as { path?: string }).path
       if (value === 'theme') {
         handleThemeUpdate()
       }
@@ -172,7 +208,7 @@ export default defineComponent({
       else {
         window.open(repoUrl, '_blank')
       }
-      mobilePopoverRef.value.setShow(false)
+      mobilePopoverRef.value?.setShow(false)
     }
 
     function handleThemeUpdate() {
@@ -198,7 +234,7 @@ export default defineComponent({
     }
 
     // display mode
-    const displayModeRef = useDisplayMode()
+    const displayModeRef = useDisplayMode() as unknown as Ref<DisplayMode>
     const displayModeLabelMap = {
       common: 'Debug',
       debug: 'Prod'
@@ -213,33 +249,33 @@ export default defineComponent({
     }
 
     // config provider
-    const configProviderNameRef = useConfigProviderName()
+    const configProviderNameRef
+      = useConfigProviderName() as unknown as Ref<ConfigProviderName>
     const cfgProviderLabelMapRef = computed(() => ({
-      tusimple: t('defaultTheme'),
-      default: t('tusimpleTheme')
+      default: t('tusimpleTheme'),
+      tusimple: t('wandeTheme'),
+      wande: t('defaultTheme')
     }))
     function handleConfigProviderUpdate() {
-      if (configProviderNameRef.value === 'tusimple') {
-        configProviderNameRef.value = 'default'
-      }
-      else {
-        configProviderNameRef.value = 'tusimple'
+      switch (configProviderNameRef.value) {
+        case 'default':
+          configProviderNameRef.value = 'tusimple'
+          break
+        case 'tusimple':
+          configProviderNameRef.value = 'wande'
+          break
+        default:
+          configProviderNameRef.value = 'default'
       }
     }
 
     // search
-    const searchableOptionsRef = useFlattenedDocOptions()
+    const searchableOptionsRef = useFlattenedDocOptions() as unknown as Ref<
+      SearchableOption[]
+    >
     const searchPatternRef = ref('')
-    const searchOptionsRef = computed(() => {
-      // function getLabel(item) {
-      //   if (item.label) {
-      //     return typeof item.extra === 'function'
-      //       ? () => [item.label, ' ', item.extra()]
-      //       : item.label + (item.extra ? ' ' + item.extra : '')
-      //   }
-      //   return item.key
-      // }
-      function getSearchableContent(item) {
+    const searchOptionsRef = computed<AutoCompleteOption[]>(() => {
+      function getSearchableContent(item: SearchableOption): string {
         if (item.label) {
           return item.label + (item.extraString ? ` ${item.extraString}` : '')
         }
@@ -249,7 +285,7 @@ export default defineComponent({
         return []
       const replaceRegex = / |-/g
       return searchableOptionsRef.value
-        .filter((item) => {
+        .filter((item: SearchableOption) => {
           const pattern = searchPatternRef.value
             .toLowerCase()
             .replace(replaceRegex, '')
@@ -259,12 +295,12 @@ export default defineComponent({
             .replace(replaceRegex, '')
           return match(pattern, label)
         })
-        .map(item => ({
+        .map((item: SearchableOption) => ({
           label: getSearchableContent(item),
           value: item.path
         }))
     })
-    function handleSearch(value) {
+    function handleSearch(value: string) {
       router.push(value)
     }
 
@@ -276,11 +312,11 @@ export default defineComponent({
         message.info(t('alreadyHome'))
         return
       }
-      router.push(/^(\/[^/]+){2}/.exec(route.path)[0])
+      router.push(getThemeAndLocalePathPrefix(route.path))
     }
 
     // responsive menu
-    const menuInstRef = ref()
+    const menuInstRef = ref<MenuInst | null>(null)
     let lastWindowInnerWidth = window.innerWidth
     window.addEventListener('resize', () => {
       if (window.innerWidth > lastWindowInnerWidth) {
