@@ -603,6 +603,11 @@ export const enComponentRoutes = [
   {
     path: 'heatmap',
     component: () => import('../../src/heatmap/demos/enUS/index.demo-entry.md')
+  },
+  {
+    path: 'text-show',
+    component: () =>
+      import('../../src/text-show/demos/enUS/index.demo-entry.md')
   }
 ]
 
@@ -1025,6 +1030,11 @@ export const zhComponentRoutes = [
   {
     path: 'heatmap',
     component: () => import('../../src/heatmap/demos/zhCN/index.demo-entry.md')
+  },
+  {
+    path: 'text-show',
+    component: () =>
+      import('../../src/text-show/demos/zhCN/index.demo-entry.md')
   }
 ]
 

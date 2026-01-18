@@ -78,6 +78,7 @@ import { switchDark } from '../switch/styles'
 import { tableDark } from '../table/styles'
 import { tabsDark } from '../tabs/styles'
 import { tagDark } from '../tag/styles'
+import { textShowDark } from '../text-show/styles'
 import { thingDark } from '../thing/styles'
 import { timePickerDark } from '../time-picker/styles'
 import { timelineDark } from '../timeline/styles'
@@ -167,6 +168,7 @@ export const darkTheme: BuiltInGlobalTheme = {
   Table: tableDark,
   Tabs: tabsDark,
   Tag: tagDark,
+  TextShow: textShowDark,
   Thing: thingDark,
   TimePicker: timePickerDark,
   Timeline: timelineDark,

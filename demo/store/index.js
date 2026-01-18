@@ -232,6 +232,214 @@ const WdConfigProvider = defineComponent({
   }
 })
 
+const appleThemeOverridesLight = {
+  common: {
+    fontFamily:
+      '-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, system-ui, "Segoe UI", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
+    fontWeight: '400',
+    fontWeightStrong: '600',
+    lineHeight: '1.6',
+    fontSize: '14px',
+    fontSizeMini: '12px',
+    fontSizeTiny: '12px',
+    fontSizeSmall: '13px',
+    fontSizeMedium: '14px',
+    fontSizeLarge: '16px',
+    fontSizeHuge: '18px',
+    heightTiny: '28px',
+    heightSmall: '32px',
+    heightMedium: '36px',
+    heightLarge: '40px',
+    heightHuge: '44px',
+    borderRadius: '12px',
+    borderRadiusSmall: '10px',
+
+    primaryColor: '#0A84FF',
+    primaryColorHover: '#007AFF',
+    primaryColorPressed: '#0060DF',
+    primaryColorSuppl: '#5AC8FA',
+
+    infoColor: '#0A84FF',
+    infoColorHover: '#007AFF',
+    infoColorPressed: '#0060DF',
+    infoColorSuppl: '#5AC8FA',
+
+    successColor: '#34C759',
+    successColorHover: '#30D158',
+    successColorPressed: '#248A3D',
+    successColorSuppl: '#32D74B',
+
+    warningColor: '#FF9F0A',
+    warningColorHover: '#FFB340',
+    warningColorPressed: '#C86D00',
+    warningColorSuppl: '#FFD60A',
+
+    errorColor: '#FF453A',
+    errorColorHover: '#FF6961',
+    errorColorPressed: '#D70015',
+    errorColorSuppl: '#FF453A',
+
+    baseColor: '#FFFFFF',
+    bodyColor: '#F5F5F7',
+    cardColor: '#FFFFFF',
+    modalColor: '#FFFFFF',
+    popoverColor: '#FFFFFF',
+
+    textColorBase: '#1D1D1F',
+    textColor1: '#1D1D1F',
+    textColor2: 'rgba(29, 29, 31, 0.78)',
+    textColor3: 'rgba(29, 29, 31, 0.56)',
+
+    placeholderColor: 'rgba(60, 60, 67, 0.48)',
+    placeholderColorDisabled: 'rgba(60, 60, 67, 0.28)',
+    textColorDisabled: 'rgba(60, 60, 67, 0.38)',
+
+    borderColor: 'rgba(60, 60, 67, 0.18)',
+    dividerColor: 'rgba(60, 60, 67, 0.12)',
+    hoverColor: 'rgba(0, 0, 0, 0.04)',
+    pressedColor: 'rgba(0, 0, 0, 0.08)',
+
+    tableHeaderColor: 'rgba(60, 60, 67, 0.06)',
+    tableColorHover: 'rgba(0, 0, 0, 0.03)',
+    tableColorStriped: 'rgba(0, 0, 0, 0.015)',
+
+    inputColor: 'rgba(255, 255, 255, 0.9)',
+    inputColorDisabled: 'rgba(60, 60, 67, 0.06)',
+    actionColor: 'rgba(255, 255, 255, 0.72)',
+    tabColor: 'rgba(255, 255, 255, 0.72)',
+    codeColor: 'rgba(60, 60, 67, 0.08)',
+
+    boxShadow1: '0 1px 2px rgba(0, 0, 0, 0.08)',
+    boxShadow2: '0 6px 18px rgba(0, 0, 0, 0.10)',
+    boxShadow3: '0 16px 40px rgba(0, 0, 0, 0.14)'
+  },
+  Button: {
+    heightTiny: '28px',
+    heightSmall: '32px',
+    heightMedium: '36px',
+    heightLarge: '40px',
+    fontWeight: '600',
+    waveOpacity: '0.25'
+  },
+  Card: {
+    borderRadius: '16px',
+    boxShadow: '0 1px 2px rgba(0, 0, 0, 0.08), 0 10px 28px rgba(0, 0, 0, 0.06)'
+  },
+  Input: {
+    borderRadius: '12px',
+    boxShadowFocus: '0 0 0 4px rgba(10, 132, 255, 0.22)'
+  },
+  Select: {
+    menuBoxShadow:
+      '0 18px 50px rgba(0, 0, 0, 0.18), 0 2px 10px rgba(0, 0, 0, 0.08)'
+  },
+  DataTable: {
+    borderRadius: '16px',
+    boxShadowBefore: 'inset -12px 0 8px -12px rgba(0, 0, 0, 0.10)',
+    boxShadowAfter: 'inset 12px 0 8px -12px rgba(0, 0, 0, 0.10)'
+  },
+  Menu: {
+    borderRadius: '16px',
+    itemHeight: '44px'
+  },
+  Tabs: {
+    tabBorderRadius: '12px'
+  },
+  Pagination: {
+    itemBorderRadius: '12px'
+  },
+  Dialog: {
+    borderRadius: '18px',
+    border: '1px solid rgba(60, 60, 67, 0.12)'
+  },
+  Drawer: {
+    borderRadius: '18px'
+  },
+  Layout: {
+    color: '#F5F5F7',
+    headerColor: 'rgba(255, 255, 255, 0.76)',
+    siderColor: 'rgba(255, 255, 255, 0.72)'
+  },
+  Typography: {
+    codeBorder: '1px solid rgba(60, 60, 67, 0.14)'
+  },
+  Form: {
+    lineHeight: '1.6'
+  }
+}
+
+const appleThemeOverridesDark = {
+  ...appleThemeOverridesLight,
+  common: {
+    ...appleThemeOverridesLight.common,
+    baseColor: '#000000',
+    bodyColor: '#000000',
+    cardColor: '#1C1C1E',
+    modalColor: '#1C1C1E',
+    popoverColor: '#1C1C1E',
+
+    textColorBase: '#F5F5F7',
+    textColor1: '#F5F5F7',
+    textColor2: 'rgba(245, 245, 247, 0.82)',
+    textColor3: 'rgba(245, 245, 247, 0.58)',
+
+    placeholderColor: 'rgba(235, 235, 245, 0.30)',
+    placeholderColorDisabled: 'rgba(235, 235, 245, 0.18)',
+    textColorDisabled: 'rgba(235, 235, 245, 0.22)',
+
+    borderColor: 'rgba(84, 84, 88, 0.65)',
+    dividerColor: 'rgba(84, 84, 88, 0.36)',
+    hoverColor: 'rgba(235, 235, 245, 0.10)',
+    pressedColor: 'rgba(235, 235, 245, 0.14)',
+
+    tableHeaderColor: 'rgba(235, 235, 245, 0.08)',
+    tableColorHover: 'rgba(235, 235, 245, 0.06)',
+    tableColorStriped: 'rgba(235, 235, 245, 0.03)',
+
+    inputColor: 'rgba(28, 28, 30, 0.82)',
+    inputColorDisabled: 'rgba(84, 84, 88, 0.18)',
+    actionColor: 'rgba(28, 28, 30, 0.78)',
+    tabColor: 'rgba(28, 28, 30, 0.78)',
+    codeColor: 'rgba(235, 235, 245, 0.12)',
+
+    boxShadow1: '0 1px 2px rgba(0, 0, 0, 0.40)',
+    boxShadow2: '0 10px 30px rgba(0, 0, 0, 0.55)',
+    boxShadow3: '0 18px 60px rgba(0, 0, 0, 0.68)'
+  },
+  Layout: {
+    color: '#000000',
+    headerColor: 'rgba(28, 28, 30, 0.82)',
+    siderColor: 'rgba(28, 28, 30, 0.78)'
+  }
+}
+
+const AppleConfigProvider = defineComponent({
+  name: 'AppleConfigProvider',
+  props: {
+    themeName: {
+      type: String,
+      default: 'light'
+    },
+    ...configProviderProps
+  },
+  render() {
+    const { themeOverrides, themeName } = this.$props
+    const appleThemeOverrides
+      = themeName === 'dark' ? appleThemeOverridesDark : appleThemeOverridesLight
+    return h(
+      NConfigProvider,
+      {
+        class: `apple-${themeName}-theme`,
+        ...this.$props,
+        themeOverrides: themeOverrides
+          ? merge({}, appleThemeOverrides, themeOverrides)
+          : appleThemeOverrides
+      },
+      this.$slots
+    )
+  }
+})
+
 let route = null
 let router = null
 // locale
@@ -305,7 +513,9 @@ const configProviderRef = computed(() => {
     ? TsConfigProvider
     : configProviderNameRef.value === 'wande'
       ? WdConfigProvider
-      : NConfigProvider
+      : configProviderNameRef.value === 'apple'
+        ? AppleConfigProvider
+        : NConfigProvider
 })
 
 // options

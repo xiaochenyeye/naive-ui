@@ -92,6 +92,7 @@ import type { SwitchTheme } from '../../switch/styles'
 import type { TableTheme } from '../../table/styles'
 import type { TabsTheme } from '../../tabs/styles'
 import type { TagTheme } from '../../tag/styles'
+import type { TextShowTheme } from '../../text-show/styles/light'
 import type { ThingTheme } from '../../thing/styles'
 import type { Size as TimePickerSize } from '../../time-picker/src/interface'
 import type { TimePickerTheme } from '../../time-picker/styles'
@@ -183,6 +184,7 @@ export interface GlobalThemeWithoutCommon {
   Tag?: TagTheme
   Thing?: ThingTheme
   TimePicker?: TimePickerTheme
+  TextShow?: TextShowTheme
   Timeline?: TimelineTheme
   Tooltip?: TooltipTheme
   Transfer?: TransferTheme

@@ -22,7 +22,7 @@ import { findMenuValue } from './utils/route'
 type LocaleName = 'zh-CN' | 'en-US'
 type ThemeName = 'dark' | 'light'
 type DisplayMode = 'common' | 'debug'
-type ConfigProviderName = 'default' | 'tusimple' | 'wande'
+type ConfigProviderName = 'default' | 'tusimple' | 'wande' | 'apple'
 
 interface PopoverInst {
   setShow: (show: boolean) => void
@@ -67,7 +67,8 @@ const locales = {
     alreadyHome: '别点了，你已经在首页了',
     tusimpleTheme: '图森主题',
     defaultTheme: '默认主题',
-    wandeTheme: '万德主题'
+    wandeTheme: '万德主题',
+    appleTheme: '苹果主题'
   },
   'en-US': {
     dark: 'Dark',
@@ -81,7 +82,8 @@ const locales = {
     alreadyHome: 'You are already in home page. No clicking anymore.',
     tusimpleTheme: 'TuSimple Theme',
     defaultTheme: 'Default Theme',
-    wandeTheme: 'Wande Theme'
+    wandeTheme: 'Wande Theme',
+    appleTheme: 'Apple Theme'
   }
 }
 
@@ -254,7 +256,8 @@ export default defineComponent({
     const cfgProviderLabelMapRef = computed(() => ({
       default: t('tusimpleTheme'),
       tusimple: t('wandeTheme'),
-      wande: t('defaultTheme')
+      wande: t('appleTheme'),
+      apple: t('defaultTheme')
     }))
     function handleConfigProviderUpdate() {
       switch (configProviderNameRef.value) {
@@ -263,6 +266,9 @@ export default defineComponent({
           break
         case 'tusimple':
           configProviderNameRef.value = 'wande'
+          break
+        case 'wande':
+          configProviderNameRef.value = 'apple'
           break
         default:
           configProviderNameRef.value = 'default'

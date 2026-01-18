@@ -81,6 +81,7 @@ import { switchLight } from '../switch/styles'
 import { tableLight } from '../table/styles'
 import { tabsLight } from '../tabs/styles'
 import { tagLight } from '../tag/styles'
+import { textShowLight } from '../text-show/styles'
 import { thingLight } from '../thing/styles'
 import { timePickerLight } from '../time-picker/styles'
 import { timelineLight } from '../timeline/styles'
@@ -170,6 +171,7 @@ export const lightTheme: BuiltInGlobalTheme = {
   Table: tableLight,
   Tabs: tabsLight,
   Tag: tagLight,
+  TextShow: textShowLight,
   Thing: thingLight,
   TimePicker: timePickerLight,
   Timeline: timelineLight,

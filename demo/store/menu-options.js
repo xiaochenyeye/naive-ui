@@ -594,6 +594,20 @@ export function createComponentMenuOptions({ lang, theme }) {
       ]
     }),
     appendCounts({
+      zh: '大屏',
+      en: 'Big Screen',
+      type: 'group',
+      children: [
+        {
+          en: 'Text Show',
+          zh: '文本展示',
+          enSuffix: true,
+          path: '/text-show',
+          isNew: true
+        }
+      ]
+    }),
+    appendCounts({
       zh: '导航组件',
       en: 'Navigation Components',
       type: 'group',
