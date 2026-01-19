@@ -12,6 +12,16 @@ export default c([
     cM('clickable', `
       cursor: pointer;
     `),
+    cM('suffix-to-end', `
+    `, [
+      cE('group', `
+        width: 100%;
+      `, [
+        cE('suffix', `
+          margin-left: auto;
+        `)
+      ])
+    ]),
     cE('content', `
       width: 100%;
       min-width: 0;
@@ -22,6 +32,12 @@ export default c([
       display: flex;
       min-width: 0;
       max-width: 100%;
+      align-items: center;
+    `),
+    cE('left', `
+      display: flex;
+      min-width: 0;
+      flex: 1 1 auto;
       align-items: center;
     `),
     cE('prefix', `

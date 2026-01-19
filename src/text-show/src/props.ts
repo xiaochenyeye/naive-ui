@@ -14,6 +14,7 @@ export const textShowProps = {
     type: String as PropType<'center' | 'baseline' | 'bottom'>,
     default: 'center'
   },
+  suffixToEnd: Boolean,
   clickable: {
     type: Boolean,
     default: true

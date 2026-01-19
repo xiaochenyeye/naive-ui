@@ -7,6 +7,7 @@
 ```demo
 basic.vue
 align.vue
+suffix-to-end.vue
 vertical-align.vue
 background.vue
 ```
@@ -19,6 +20,7 @@ background.vue
 | --- | --- | --- | --- |
 | align | `'left' \| 'center' \| 'right'` | `'left'` | 中间文本对齐方式 |
 | vertical-align | `'center' \| 'baseline' \| 'bottom'` | `'center'` | 内容的垂直对齐方式 |
+| suffix-to-end | `boolean` | `false` | 是否将后置内容推到最右侧 |
 | clickable | `boolean` | `true` | 是否可点击展开 |
 | default-expanded | `boolean` | `false` | 非受控模式下的默认展开状态 |
 | expanded | `boolean` | `undefined` | 展开状态（受控） |

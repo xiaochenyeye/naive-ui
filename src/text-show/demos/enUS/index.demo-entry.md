@@ -7,6 +7,7 @@ Single-line text display for big-screen scenarios: prefix/suffix stay visible, t
 ```demo
 basic.vue
 align.vue
+suffix-to-end.vue
 vertical-align.vue
 background.vue
 ```
@@ -19,6 +20,7 @@ background.vue
 | --- | --- | --- | --- |
 | align | `'left' \| 'center' \| 'right'` | `'left'` | Middle text alignment |
 | vertical-align | `'center' \| 'baseline' \| 'bottom'` | `'center'` | Vertical alignment |
+| suffix-to-end | `boolean` | `false` | Whether to push suffix content to the far right |
 | clickable | `boolean` | `true` | Whether it can be clicked to expand |
 | default-expanded | `boolean` | `false` | Default expanded state (uncontrolled) |
 | expanded | `boolean` | `undefined` | Expanded state (controlled) |

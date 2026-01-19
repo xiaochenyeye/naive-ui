@@ -55,6 +55,7 @@ export default defineComponent({
 
     const rootElRef = ref<HTMLElement | null>(null)
     const groupElRef = ref<HTMLElement | null>(null)
+    const leftElRef = ref<HTMLElement | null>(null)
     const expandedElRef = ref<HTMLElement | null>(null)
     const expandedPositionRef = ref<{ left: number, top: number } | null>(null)
 
@@ -121,8 +122,9 @@ export default defineComponent({
             ? 'flex-end'
             : 'center'
       return {
-        justifyContent:
-          align === 'center'
+        justifyContent: props.suffixToEnd
+          ? 'flex-start'
+          : align === 'center'
             ? 'center'
             : align === 'right'
               ? 'flex-end'
@@ -152,14 +154,14 @@ export default defineComponent({
 
     function syncExpandedPosition(): void {
       const rootEl = rootElRef.value
-      const groupEl = groupElRef.value
-      if (!rootEl || !groupEl)
+      const anchorEl = props.suffixToEnd ? leftElRef.value : groupElRef.value
+      if (!rootEl || !anchorEl)
         return
       const rootRect = rootEl.getBoundingClientRect()
-      const groupRect = groupEl.getBoundingClientRect()
+      const anchorRect = anchorEl.getBoundingClientRect()
       expandedPositionRef.value = {
-        left: groupRect.left - rootRect.left + groupRect.width / 2,
-        top: groupRect.top - rootRect.top + groupRect.height / 2
+        left: anchorRect.left - rootRect.left + anchorRect.width / 2,
+        top: anchorRect.top - rootRect.top + anchorRect.height / 2
       }
     }
 
@@ -202,6 +204,7 @@ export default defineComponent({
       groupStyle: groupStyleRef,
       rootElRef,
       groupElRef,
+      leftElRef,
       expandedElRef,
       mergedExpanded: mergedExpandedRef,
       expandedStyle: expandedStyleRef,
@@ -230,6 +233,7 @@ export default defineComponent({
         class={[
           `${mergedClsPrefix}-text-show`,
           this.clickable && `${mergedClsPrefix}-text-show--clickable`,
+          this.suffixToEnd && `${mergedClsPrefix}-text-show--suffix-to-end`,
           themeClass
         ]}
         style={cssVars}
@@ -257,12 +261,29 @@ export default defineComponent({
             style={groupStyle}
             ref="groupElRef"
           >
-            {prefixNode ? (
-              <span class={`${mergedClsPrefix}-text-show__prefix`}>
-                {prefixNode}
-              </span>
-            ) : null}
-            <span class={`${mergedClsPrefix}-text-show__text`}>{mainNode}</span>
+            {this.suffixToEnd ? (
+              <div class={`${mergedClsPrefix}-text-show__left`} ref="leftElRef">
+                {prefixNode ? (
+                  <span class={`${mergedClsPrefix}-text-show__prefix`}>
+                    {prefixNode}
+                  </span>
+                ) : null}
+                <span class={`${mergedClsPrefix}-text-show__text`}>
+                  {mainNode}
+                </span>
+              </div>
+            ) : (
+              [
+                prefixNode ? (
+                  <span class={`${mergedClsPrefix}-text-show__prefix`}>
+                    {prefixNode}
+                  </span>
+                ) : null,
+                <span class={`${mergedClsPrefix}-text-show__text`}>
+                  {mainNode}
+                </span>
+              ]
+            )}
             {suffixNode ? (
               <span class={`${mergedClsPrefix}-text-show__suffix`}>
                 {suffixNode}
